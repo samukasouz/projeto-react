@@ -1,22 +1,36 @@
 import { useState } from "react";
+import Input from "./Input"; // ou o caminho correto para o seu componente
 
-function AddTask(onAddTaskSubmit) {
-  const [title, seTitle] = useState("");
+function AddTask({ onAddTaskSubmit }) {
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+
   return (
-    <div className="space-y-4 p-6 bg-slate-200 rounded-md shadow ">
-      <input
+    <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+      <Input
         type="text"
         placeholder="Digite o título da tarefa"
-        className="border-slate-300 outline-slate-400 px-4 py-2 rounded-md"
+        value={title}
+        onChange={(event) => setTitle(event.target.value)}
       />
-      <input
+      <Input
         type="text"
-        placeholder="Digite descrição da tarefa"
-        className="border-slate-300r outline-slate-400 px-4 py-2 rounded-md"
-      ></input>
-      <button className="bg-slate-500 text-white px-4 py-2 rounded-md font-medium">
-        {" "}
+        placeholder="Digite a descrição da tarefa"
+        value={description}
+        onChange={(event) => setDescription(event.target.value)}
+      />
+      <button
+        onClick={() => {
+          // verificar se o título e a descrição estão preenchidos
+          if (!title.trim() || !description.trim()) {
+            return alert("Preencha o título e a descrição da tarefa.");
+          }
+          onAddTaskSubmit(title, description);
+          setTitle("");
+          setDescription("");
+        }}
+        className="bg-slate-500 text-black px-4 py-2 rounded-md font-medium"
+      >
         Adicionar
       </button>
     </div>
